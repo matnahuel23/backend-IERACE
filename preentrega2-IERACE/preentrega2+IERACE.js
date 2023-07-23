@@ -72,7 +72,7 @@ const main = async () => {
 
     //Guardar un objeto
     const id = await productos.save(
-        {title: 'Porducto 3', price: 100}
+        {title: 'Producto 3', price: 100, thumbnail: 'https://imagen3'}
     )
     console.log('Objeto guardado con ID:', id)
 

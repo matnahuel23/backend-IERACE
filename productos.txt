@@ -63,5 +63,23 @@
     "id": 14,
     "title": "Porducto 3",
     "price": 100
+  },
+  {
+    "id": 15,
+    "title": "Producto 3",
+    "price": 100,
+    "thumbnail": "https://imagen3"
+  },
+  {
+    "id": 16,
+    "title": "Producto 3",
+    "price": 100,
+    "thumbnail": "https://imagen3"
+  },
+  {
+    "id": 17,
+    "title": "Producto 3",
+    "price": 100,
+    "thumbnail": "https://imagen3"
   }
 ]
