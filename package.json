@@ -1,0 +1,15 @@
+{
+  "name": "preentrega3-ierace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "preentrega3+IERACE.js",
+  "scripts": {
+    "start": "nodemon main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
