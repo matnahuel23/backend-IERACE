@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }))
 app.listen(PORT, () =>
     console.log(`Server running on port:${PORT}`))
 
-//**************************************/
+//**********************************************************/
 class Contenedor{
     constructor(file){
         this.file = file
@@ -94,6 +94,9 @@ class Contenedor{
     }
 }
 
+//**************************************************************************************/
+
+// hago que el contenedor tome los datos del archivo txt indicandole la ruta
 const contenedor = new Contenedor('./productos.txt')
 
 //muestra todos con el GET
@@ -107,6 +110,7 @@ app.get("/productos", async (req, res) => {
     }
 })
 
+// muestra un producto aleatorio usando el nuevo metodo getRandom que comente arriba
 app.get("/productosRandom", async (req, res) => {
     try {
         // Obtiene todos los productos usando el método getAll()
