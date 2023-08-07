@@ -9,15 +9,16 @@ router.get('/api/products', (req, res) => {
     res.json({ products })
 });
 
-// Ruta para obtener un producto específico por ID
+// Ruta para obtener un producto por id
 router.get('/api/products/:pid', (req, res) => {
-    const pid = parseInt(req.params.pid);
-    const product = products.find((product) => product.id === pid);
+    const pid = req.params.pid
+    const product = products.find((product) => product.id === pid)
     if (!product) {
         return res.status(404).json({ error: 'Producto no encontrado.' })
     }
     return res.json(product);
-})
+});
+
 
 // Funcion para generar id Unico
 function generateUniqueId() {
@@ -49,7 +50,7 @@ router.post('/api/products', (req, res) => {
 
 // Ruta para actualizar un producto por su ID (PUT /:pid)
 router.put('/api/products/:pid', (req, res) => {
-    const pid = parseInt(req.params.pid);
+    const pid = req.params.pid; // No es necesario convertirlo a número aquí
     const updateFields = req.body;
     // Validamos que se proporcionen campos para actualizar
     if (Object.keys(updateFields).length === 0) {
@@ -64,9 +65,10 @@ router.put('/api/products/:pid', (req, res) => {
     return res.json(productToUpdate);
 });
 
+
 // Ruta para eliminar un producto por su ID (DELETE /:pid), utilizo el findIndex
 router.delete('/api/products/:pid', (req, res) => {
-    const pid = parseInt(req.params.pid);
+    const pid = req.params.pid; // No es necesario convertirlo a número aquí
     const productIndex = products.findIndex((product) => product.id === pid);
     if (productIndex === -1) {
         return res.status(404).json({ error: 'Producto no encontrado.' });
