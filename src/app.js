@@ -1,7 +1,6 @@
 const fs= require ('fs')
 const express = require('express')
 const path = require('path')
-const handlebars = require('express-handlebars')
 const app = express()
 const PORT = 8080
 
@@ -17,15 +16,12 @@ const cartsRouter = require('./routes/carts.router')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// handlebars
-app.engine("handlebars", handlebars.engine())
-app.set("views", __dirname + "./views")
-app.set("view engine", "handlebars")
-
 //*********************************************************/
 app.use('/', productsRouter)
 app.use('/', cartsRouter)
-
+// Rutas
+app.use('/api', productsRouter);  // Utilizamos '/api' como prefijo para todas las rutas del enrutador de productos
+app.use('/api', cartsRouter);  // Utilizamos '/api' como prefijo para todas las rutas del enrutador de carritos
 //*********************************************************/
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './public', 'index.html'))
