@@ -17,11 +17,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 //*********************************************************/
+//Rutas
 app.use('/', productsRouter)
 app.use('/', cartsRouter)
-// Rutas
-app.use('/api', productsRouter);  // Utilizamos '/api' como prefijo para todas las rutas del enrutador de productos
-app.use('/api', cartsRouter);  // Utilizamos '/api' como prefijo para todas las rutas del enrutador de carritos
 //*********************************************************/
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './public', 'index.html'))
