@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 
 //*********************************************************/
 //Rutas
-app.use('/', productsRouter)
+app.use('/', productsRouter.router)
 app.use('/', cartsRouter)
 //*********************************************************/
 app.get('/', (req, res) => {

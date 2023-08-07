@@ -78,4 +78,4 @@ router.delete('/api/products/:pid', (req, res) => {
 });
 
 //exporto el router
-module.exports = router;
+module.exports = { router, products };

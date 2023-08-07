@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { products} = require('./products.router');
 
 // Array de carritos
 const carts = [];
@@ -37,6 +38,11 @@ router.post('/api/carts/:cid/product/:pid', (req, res) => {
   const cart = carts.find((cart) => cart.id === cid);
   if (!cart) {
       return res.status(404).json({ error: 'Carrito no encontrado.' });
+  }
+    // Verificamos si el producto existe en products.router.products
+  const product = products.find((product) => product.id === pid);
+  if (!product) {
+      return res.status(404).json({ error: 'Producto no encontrado.' });
   }
   // Verificamos si el producto ya existe en el carrito
   const existingProduct = cart.products.find((item) => item.product === pid);
