@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/user');
 const passport = require('passport');
 const { createHash, isValidatePassword } = require('../../utils');
+const admin = "adminCoder@coder.com"
 
 router.get('/register', (req, res) => {
     res.render('register.hbs')
@@ -23,9 +24,7 @@ router.post('/register', (req, res, next) => {
             age,
             password: createHash(password)
         };
-        delete user.password;
-        req.session.user = user;
-        req.session.admin = true;
+        delete user.password
         res.redirect('/profile');
     } catch (error) {
         return res.status(500).send('Error al registrar usuario.');
@@ -46,11 +45,55 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/faillo
         age: req.user.age,
         email: req.user.email
     };
+    // Verificar si el usuario es administrador
+    if (req.user.email === admin) {
+        req.session.admin = true;
+        return res.redirect('/privado');
+    } else {
+        req.session.admin = false;
+        res.redirect('/profile');
+    }
+});
+
+router.get('/login', (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).send({ status: "error", error: "Valores incorrectos" });
+    }
+    const user = User.findOne({ email: email }, { email: 1, first_name: 1, last_name: 1 , password: 1 });
+    if (!user) {
+        return res.status(400).send({ status: "error", error: "Usuario no encontrado" });
+    }
+    if (!isValidatePassword(user, password)) {
+        return res.status(403).send({ status: "error", error: "Contraseña incorrecta" });
+    }
+    req.session.user = user;
+    const isAdmin = user.email === admin
+    if(isAdmin){
+        req.session.admin = true
+        res.redirect('/privado')
+    }else{
+        req.session.admin = false;
+    }
     res.redirect('/profile');
 });
 
 router.get('/faillogin', (req, res) => {
     res.redirect('/')
+});
+
+// Creo middleware de autentificación para permitir seguir como ADMIN
+function auth(req, res, next) {
+    console.log('Middleware auth:', req.session.user, req.session.admin);
+    if (req.session?.admin) {
+        return next();
+    }
+    return res.status(401).send('Error de autorización');
+}
+
+// Acceso solo del administrador
+router.get('/privado', auth, (req, res) => {
+    res.send('Si estás viendo esto es porque ya te logueaste como administrador');
 });
 
 router.get('/profile', (req, res) => {
@@ -69,24 +112,6 @@ router.get('/session', (req, res) => {
         req.session.counter = 1;
         res.send('¡Bienvenido!');
     }
-});
-
-router.get('/login', (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password) {
-        return res.status(400).send({ status: "error", error: "Valores incorrectos" });
-    }
-    const user = User.findOne({ email: email }, { email: 1, first_name: 1, last_name: 1/* , password: 1 */ });
-    if (!user) {
-        return res.status(400).send({ status: "error", error: "Usuario no encontrado" });
-    }
-    if (!isValidatePassword(user, password)) {
-        return res.status(403).send({ status: "error", error: "Contraseña incorrecta" });
-    }
-    delete user.password;
-    req.session.user = user;
-    req.session.admin = true;
-    res.redirect('/profile');
 });
 
 router.post('/restore', async (req, res) => {
@@ -120,19 +145,6 @@ router.post('/restore', async (req, res) => {
 router.get('/restore', (req, res) => {
     const email = req.query.email || ''
     res.render('restore.hbs', { email })
-});
-
-// Creo middleware de autentificación para permitir seguir como ADMIN
-function auth(req, res, next) {
-    if (req.session?.user === 'adminCoder@coder.com' && req.session?.admin) {
-        return next();
-    }
-    return res.status(401).send('Error de autorización');
-}
-
-// Acceso solo del administrador
-router.get('/privado', auth, (req, res) => {
-    res.send('Si estás viendo esto es porque ya te logueaste como administrador');
 });
 
 router.get('/logout', (req, res) => {

@@ -21,7 +21,7 @@ app.use(session({
     // resave en false hace que la sesión muera luego de un tiempo, si quiero que quede activa le pongo true
     resave: false,
     // saveUninitialized en true guarda sesión aun cuando el objeto de sesión no tenga nada por contener
-    saveUninitialized: false,
+    saveUninitialized: true,
 }));
 initializePassport();
 app.use(passport.initialize())
