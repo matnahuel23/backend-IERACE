@@ -84,7 +84,6 @@ router.get('/faillogin', (req, res) => {
 
 // Creo middleware de autentificación para permitir seguir como ADMIN
 function auth(req, res, next) {
-    console.log('Middleware auth:', req.session.user, req.session.admin);
     if (req.session?.admin) {
         return next();
     }
