@@ -50,12 +50,12 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/faillo
 });
 
 router.get('/faillogin', (req, res) => {
-    res.send({ error: "Falla al loguearse" });
+    res.redirect('/')
 });
 
 router.get('/profile', (req, res) => {
     if (!req.session.user) {
-        return res.redirect('/login');
+        return res.redirect('/');
     }
     const { first_name, last_name, email, age } = req.session.user;
     res.render('profile.hbs', { first_name, last_name, email, age });
@@ -110,7 +110,7 @@ router.post('/restore', async (req, res) => {
 
         // Actualiza la información de usuario en la sesión
         req.session.user = updatedUser;
-        res.redirect('/login'); // Redirecciona de nuevo a la página de inicio de sesión
+        res.redirect('/'); // Redirecciona de nuevo a la página de inicio de sesión
     } catch (error) {
         console.error(error);
         return res.status(500).send({ status: "error", error: "Error al actualizar la contraseña" });
@@ -139,7 +139,7 @@ router.get('/logout', (req, res) => {
     // El destroy elimina datos de sesión
     req.session.destroy(err => {
         if (!err) {
-            res.send('Logout OK!');
+            res.redirect('/');
         } else {
             res.send({ status: 'Logout ERROR', body: err });
         }
