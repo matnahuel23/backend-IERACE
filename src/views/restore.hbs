@@ -1,7 +1,7 @@
-<form action="">
+<form method="POST" action="/restore">
     <label for="email">Email</label>
-    <input type="email">
-    <label for="password">New password</label>
-    <input type="password">
-    <button type="submit">Submit</button>
+    <input type="email" name="email" value="{{email}}" required>
+    <label for="password">Nueva contraseña</label>
+    <input type="password" name="password" required>
+    <button type="submit">Restaurar contraseña</button>
 </form>
