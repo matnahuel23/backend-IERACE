@@ -1,41 +1,10 @@
 http://localhost:8080/
 
-Es el login de los usuarios, con boton login, enlace para restaurar contraseña y otro para registrar un nuevo usuario
+Agregue el boton que permite loguearse con github.
+El cual pide acceso a github y trae el perfil para usar Name e email.
 
-![Login en http://localhost:8080/](src/public/prints/login.jpg)
+![LoginGitHub en http://localhost:8080/](src/public/prints/log%20por%20github.jpg.jpg)
 
-Si el usuario esta registrado ingresa al profile con la opcion de desloguearse y volver al menu de logueo nuevamente
+En la base de datos se alamacenara un nuevo usuario sin password SI este no se encuentra registrado y si ya lo esta ingresare al perfil con los datos ya cargados, todo esto se valida con el email.
 
-http://localhost:8080/profile
-
-![Profile en http://localhost:8080/profile](src/public/prints/profile.jpg)
-
-Si el programa detecta que es el Administrador previamente registrado es
-Email: adminCoder@coder.com 
-Password: 1
-Ingresamos a privado que solo el administrador puede ver
-
-http://localhost:8080/privado
-
-![Privado en http://localhost:8080/privado](src/public/prints/privado.jpg)
-
-Si el mail o contraseña es erroneo tengo mensaje de error y el usuario tiene que poner algo correcto para loguearse, o bien registrarse/restaurar contraseña segun el caso
-
-http://localhost:8080/
-
-![Consola en http://localhost:8080/](src/public/prints/mensajeError.jpg)
-
-Registro de nuevo usuario
-
-http://localhost:8080/register
-
-![Registro en http://localhost:8080/register](src/public/prints/registro.jpg)
-
-Recupero de contraseña 
-
-http://localhost:8080/restore
-
-![Restore en http://localhost:8080/restore](src/public/prints/restore.jpg)
-
-
-Utilice bcrypt y passport en la implementación de este código
+![BD](src/public/prints/usuarios%20de%20bd.jpg)
