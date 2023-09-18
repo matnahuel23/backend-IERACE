@@ -62,10 +62,10 @@ const initializePassport = () => {
     passport.use('github', new GitHubStrategy({
         clientID: "Iv1.1e44b8fedafbceae",
         clientSecret: '7d394776f813e113817fe640f4d547dd96d97774',
-        callbackURL: 'http://localhost:8080/api/sessions/githubcallback'
+        callbackURL: 'http://localhost:8080/githubcallback'
     }, async(accessToken, refreshToken, profile, done) => {
         try{
-            console.log(profile) //chequeo info que viene del perfil
+            // console.log(profile) //chequeo info que viene del perfil
             let user = await userService.findOne({email:profile._json.email})
             if(!user){ // Si el usuario no existe en nuestra BD, lo agrego
                 let newUser = {
@@ -78,7 +78,7 @@ const initializePassport = () => {
                 let result = await userService.create(newUser)
                 done(null, result)
             } else { // Si entra aca, es porque el usuario ya existia en nuestra BD
-                done(null, result)
+                done(null, user)
             }
         }catch(error){
             return done(error)

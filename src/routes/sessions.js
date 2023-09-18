@@ -157,4 +157,21 @@ router.get('/logout', (req, res) => {
     });
 });
 
+// LOGIN por medio de GitHub
+/* Este es el link que llama desde el front, pasa por el middleware de passport-github2
+*  pedira autorizacion a acceder al perfil,
+*  cuando acceda, passport enviara la info hacia el callback
+*/
+router.get('/github', passport.authenticate('github', {scope:['user:email']}, async(req, res) => {}))
+/**
+ * Este callback TIENE QUE COINCIDIR con el que setee en la app de github, éste se encargará 
+ * de hacer la redirección final a ña ventana Home
+ * una vez que el login haya logrado establecer la sesión
+ */
+router.get('/githubcallback', passport.authenticate('github',{failureRedirect:'login'}), async(req,res) => {
+    // Nuestra estrategia nos devolvera al usuario, solo lo agregamos a nuestro objeto de sesión.
+    req.session.user = req.user
+    res.redirect('/profile');
+})
+
 module.exports = router;
